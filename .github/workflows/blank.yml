@@ -1,0 +1,125 @@
+create database db_faculdade;
+show databases;
+use db_faculdade;
+
+create table tbl_aluno(
+	  id int not null primary key auto_increment,
+    nome_aluno varchar(45) not null,
+    cpf_aluno varchar(45) not null,
+    matricula_aluno int not null,
+    curso_aluno varchar(45) not null,
+    frequencia_aluno varchar(45) not null,
+    unique index(id)
+);
+
+create table tbl_professores(
+	id int not null primary key auto_increment,
+    nome_professor varchar(45) not null,
+    cpf_professor varchar(45) not null,
+    formacao varchar(45) not null,
+    turmas varchar(45) not null,
+    unique index(id)
+);
+
+create table tbl_materias(
+	id int not null primary key auto_increment,
+    nome_materia varchar(45) not null,
+    carga_horaria varchar(45) not null,
+	unique index(id)
+);
+
+
+create table tbl_curso(
+	id int not null primary key auto_increment,
+    nome varchar(45) not null,
+    unique index(id)
+);
+
+create table tbl_turma(
+	id int not null primary key auto_increment,
+    letra_turma varchar(45) not null,
+    turno varchar(45) not null,
+    unique index(id)
+);
+create table tbl_nota(
+	id int not null primary key auto_increment,
+    nota_1 float not null,
+    nota_2 float not null,
+    nota_3 float not null,
+    nota_4 float not null,
+    media float not null,
+	id_aluno INT NOT NULL,
+	CONSTRAINT fk_nota_aluno
+	FOREIGN KEY (id_aluno)
+	REFERENCES tbl_aluno(id),
+    unique index(id)
+);
+
+create table tbl_aluno_turma(
+	id int not null primary key auto_increment,
+	nome_turma varchar(45) not null,
+    alunos_turma varchar(45) not null,
+    
+    id_aluno int not null,
+    constraint fk_aluno_turma_aluno
+    foreign key (id_aluno)
+    references tbl_aluno(id),
+    
+    id_turma int not null,
+    constraint fk_aluno_turma_turma
+    foreign key (id_turma)
+    references tbl_turma(id),
+    
+    unique index(id)
+    
+);
+
+create table tbl_aluno_curso(
+	id int not null primary key auto_increment,
+	nome_aluno varchar(45) not null,
+    nome_curso varchar(45) not null,
+    
+    id_aluno int not null,
+    constraint fk_aluno_curso_aluno
+    foreign key (id_aluno)
+    references tbl_aluno(id),
+    id_curso int not null,
+    constraint fk_aluno_curso_curso
+    foreign key (id_curso)
+    references tbl_curso(id),
+    unique index(id)
+    
+);
+
+create table tbl_professor_materia(
+	id int not null primary key auto_increment,
+	professor varchar(45) not null,
+    materia varchar(45) not null,
+    
+    id_professores int not null,
+    constraint fk_professor_materia_professor
+    foreign key (id_professores)
+    references tbl_professores(id),
+    id_materias int not null,
+    constraint fk_professor_materia_materia
+    foreign key (id_materias)
+    references tbl_materias(id),
+    unique index(id)
+);
+
+create table tbl_curso_materia(
+	id int not null primary key auto_increment,
+	curso varchar(45) not null,
+    materia varchar(45) not null,
+    id_curso int not null,
+    constraint fk_curso_materia_curso
+    foreign key (id_curso)
+    references tbl_curso(id),
+    id_materias int not null,
+    constraint fk_curso_materia_materia
+    foreign key (id_materias)
+    references tbl_materias(id),
+    unique index(id)
+);
+
+show tables;
